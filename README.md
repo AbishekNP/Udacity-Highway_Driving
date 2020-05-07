@@ -111,10 +111,45 @@ Note: regardless of the changes you make, your project must be buildable using
 cmake and make!
 
 
-## Code explanation:
+### Code explanation:
+
+## Initial assignments:
+
+
+![alt_text](https://github.com/AbishekNP/Udacity-Highway_Driving/blob/master/Images/initial.JPG)
 
 * The initial velocity of the car is set to be 0 mph.
 * The center lane is chosen to be defaut lane.
 
+* Then, we find out which lane does the target vehicle belongs to.
+* Also, it's attributes like speed and s values are calculate in terms of Frenet's coordinates.
+* Finally, we perform a step to project the s value so that we could predict the future state of the target vehicle.
 
- 
+![alt_text](https://github.com/AbishekNP/Udacity-Highway_Driving/blob/master/Images/target_attributes.JPG)
+
+## Performing the lane shift:
+* This is the most crucial step in the path planning task.
+* In my case, I've written conditions such that our ego vehicle takes into consideration, the state of the vehicles within a 30 metre radius both on the front and rear.
+* In case our current line was occupied, the ego vehicle looks for it's adjacent lane for suitable conditions and makes the shift.
+* Also, care must be taken that the parameters responsible for the comfort must not be exceeded.
+
+![alt_text](https://github.com/AbishekNP/Udacity-Highway_Driving/blob/master/Images/laneshifts.JPG)
+
+* This code snippet is used to assign the parameters like, maximum acceleration and maximum velocity.
+* The maximum acceleration parameter value is tuned in such a way that the ego vehicle does not produce any sudden increase or decrease in acceleration thereby producing jerks.
+* Generally, it's a safe measure to reduce the vehicle speed when making a lane change inorder to prevent jerks.
+* Cases when the ego vehicle fails to find a free lane, it's tuned to follow the current lane at a lower speed until a free lane is available.
+
+## Waypoints:
+* In this project, we generate a total of 50 waypoints for the ego vehicle to follow. This number is completly tunable but, having large number of waypoints can reduce the car's response to dynamic changes in the environment.
+
+![alt_text](https://github.com/AbishekNP/Udacity-Highway_Driving/blob/master/Images/waypoint1.JPG)
+
+* In this case, we generate new waypoints from the existing ones or in case of absence of previous waypoint list, we generate a new list of waypoints. We also need to assign the distance between two waypoints. 
+* Once these waypoints are generated, we pass it into the "spline" C++ library inorder to get a smooth curve out of the points in the waypoint list.
+* This process is repeated in such a way that always 50 waypoints remain at any instant of time, whether they are taken from the previous records or generated newly.
+
+## Tips for improvement:
+* Though I got good results with the current code, instead of using Finite state machines directly, a cost function based approach could be a more generalized solution.
+
+
