@@ -111,6 +111,10 @@ Note: regardless of the changes you make, your project must be buildable using
 cmake and make!
 
 
-##Code explanation:
+## Code explanation:
+
+* The initial velocity of the car is set to be 0 mph.
+* The center lane is chosen to be defaut lane.
+
 
  
